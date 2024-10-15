@@ -1,0 +1,58 @@
+---
+import type { GetStaticPaths } from "astro";
+import MainLayout from "../../layouts/MainLayout.astro";
+import PokemonCard from "../../components/pokemons/PokemonCard.astro";
+
+export const getStaticPaths = (() => {
+  return [
+    {
+      params: {
+        name: "charizard",
+      },
+      props: {
+        name: "charizard",
+        url: "https://pokeapi.co/api/v2/pokemon/6/",
+      },
+    },
+    {
+      params: { name: "blastoise" },
+      props: {
+        name: "charizard",
+        url: "https://pokeapi.co/api/v2/pokemon/9/",
+      },
+    },
+    {
+      params: { name: "kakuna" },
+      props: {
+        name: "charizard", 
+        url: "https://pokeapi.co/api/v2/pokemon/14/",
+      },
+    },
+  ];
+}) satisfies GetStaticPaths;
+
+const { name } = Astro.params;
+const { url } = Astro.props;
+
+const id = url.split("/").at(-2);
+console.log("🚀 ~ id:", id)
+---
+
+<MainLayout title="Algún Pokémon">
+  <h1 class="text-3xl">{name}</h1>
+
+  <section class="mt-10 mx-10 flex flex-col justify-center items-center">
+    <div>
+      <a href="/">Regresar</a>
+      <h1 class="text-5xl capitalize">{name}</h1>
+    </div>
+
+    <PokemonCard name={name} url={url} />
+  </section>
+</MainLayout>
+
+<style>
+  a {
+    @apply hover:underline text-blue-500;
+  }
+</style>
